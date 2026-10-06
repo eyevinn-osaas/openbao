@@ -1,0 +1,14 @@
+# OpenBao for OSC: official release image plus an entrypoint that writes the
+# Raft + static-seal config. Pin the tag to the release being published.
+FROM ghcr.io/openbao/openbao:2.7.1
+
+USER root
+RUN apk add --no-cache bash
+
+COPY --chmod=755 osc-entrypoint.sh /usr/local/bin/osc-entrypoint.sh
+
+ENV PORT=8080
+EXPOSE 8080
+
+ENTRYPOINT ["/usr/local/bin/osc-entrypoint.sh"]
+CMD ["server"]
